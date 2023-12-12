@@ -24,6 +24,12 @@
     "subtitle",
     "transcript"
   ],
+  "files": [
+    "dist",
+    "README.md",
+    "package.json",
+    "LICENSE"
+  ],
   "author": "Michael Esteban",
   "license": "MIT",
   "bugs": {
