@@ -1,0 +1,40 @@
+{
+  "name": "youtube-subtitle-transcript",
+  "version": "0.0.1",
+  "description": "A package for retrieving YouTube subtitle transcripts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "scripts": {
+    "build": "tsup index.ts --format cjs,esm --dts --clean",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikeesto/youtube-subtitle-transcript.git"
+  },
+  "keywords": [
+    "youtube",
+    "subtitle",
+    "transcript"
+  ],
+  "author": "Michael Esteban",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mikeesto/youtube-subtitle-transcript/issues"
+  },
+  "homepage": "https://github.com/mikeesto/youtube-subtitle-transcript#readme",
+  "dependencies": {
+    "xml2js": "^0.6.2"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3"
+  }
+}
