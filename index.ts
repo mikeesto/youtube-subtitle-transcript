@@ -17,6 +17,11 @@ interface TranscriptEntry {
   duration: string;
 }
 
+interface FetchTranscriptResult {
+  transcript: TranscriptEntry[];
+  error?: string;
+}
+
 async function getCaptionsInfo(videoId: string): Promise<CaptionsInfo> {
   const response = await fetch(YOUTUBE_WATCH_URL + videoId);
   const html = await response.text();
@@ -26,11 +31,16 @@ async function getCaptionsInfo(videoId: string): Promise<CaptionsInfo> {
   const match = captionsScriptRegex.exec(html);
 
   if (!match) {
-    throw new Error("Captions JSON not found");
+    throw new Error("Captions not found");
   }
 
-  const captionsJson = JSON.parse(match[1]);
-  return captionsJson.captions.playerCaptionsTracklistRenderer;
+  const { captions } = JSON.parse(match[1]);
+
+  if (!captions) {
+    throw new Error("Captions not found");
+  }
+
+  return captions.playerCaptionsTracklistRenderer;
 }
 
 function getTranscriptUrl(
@@ -78,7 +88,7 @@ async function fetchSubtitles(
 export async function fetchTranscript(
   videoId: string,
   languageCode: string = "en"
-): Promise<TranscriptEntry[]> {
+): Promise<FetchTranscriptResult> {
   if (!videoId) {
     throw new Error("fetchTranscript requires a video ID as a parameter");
   }
@@ -86,10 +96,10 @@ export async function fetchTranscript(
   try {
     const captionsInfo = await getCaptionsInfo(videoId);
     const transcriptUrl = getTranscriptUrl(languageCode, captionsInfo);
-    const subtitles = await fetchSubtitles(transcriptUrl);
+    const transcript = await fetchSubtitles(transcriptUrl);
 
-    return subtitles;
+    return { transcript };
   } catch (err) {
-    throw new Error(err);
+    return { transcript: [], error: err.message };
   }
 }
