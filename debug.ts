@@ -1,6 +1,6 @@
 import { fetchTranscript } from "./index";
 
-async function runTest() {
+async function runDebug() {
   try {
     const videoId = "dQw4w9WgXcQ"; // This is the ID for "Never Gonna Give You Up"
 
@@ -13,4 +13,4 @@ async function runTest() {
   }
 }
 
-runTest();
+runDebug();

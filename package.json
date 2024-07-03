@@ -6,7 +6,8 @@
   "module": "./dist/index.js",
   "scripts": {
     "build": "tsup index.ts --format cjs,esm --dts --clean",
-    "test": "ts-node test.ts"
+    "debug": "ts-node debug.ts",
+    "test": "echo \"Error: no test specified\""
   },
   "exports": {
     ".": {
