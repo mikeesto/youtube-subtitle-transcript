@@ -6,7 +6,7 @@
   "module": "./dist/index.js",
   "scripts": {
     "build": "tsup index.ts --format cjs,esm --dts --clean",
-    "test": "echo \"Error: no tests specified\""
+    "test": "ts-node test.ts"
   },
   "exports": {
     ".": {
@@ -40,6 +40,7 @@
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
+    "ts-node": "^10.9.2",
     "tsup": "^8.0.1",
     "typescript": "^5.3.3"
   }
