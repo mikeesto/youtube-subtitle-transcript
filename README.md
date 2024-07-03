@@ -11,8 +11,8 @@ This library fetches transcripts of YouTube videos. It leverages YouTube's built
 ```ts
 import { fetchTranscript } from "youtube-subtitle-transcript";
 
-const { subtitles, error } = await fetchTranscript("dQw4w9WgXcQ");
-console.log(subtitles);
+const { transcript, error } = await fetchTranscript("dQw4w9WgXcQ");
+console.log(transcript);
 ```
 
 ## API Reference
@@ -34,7 +34,8 @@ fetchTranscript(videoId: string, languageCode?: string): Promise<FetchTranscript
 
 - `text`: The transcript text content.
 - `start`: Starting time of the transcript segment in seconds (e.g. "1.23").
-- `duration`: Duration of the transcript segment in seconds (e.g. "5.67").
+- `end`: Ending time of the transcript segment in seconds (e.g. "2.34").
+- `duration`: Duration of the transcript segment in seconds (e.g. "1.11").
 
 ## Credit
 

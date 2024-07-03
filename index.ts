@@ -14,6 +14,7 @@ interface CaptionsInfo {
 interface TranscriptEntry {
   text: string;
   start: string;
+  end: string;
   duration: string;
 }
 
@@ -68,14 +69,28 @@ async function fetchSubtitles(
 
   try {
     const result = await xml2js.parseStringPromise(xmlString);
-
-    // Extract text from each text element in the parsed XML
     const textElements = result.transcript.text;
-    textElements.forEach((element: any) => {
+
+    // Attempt to handle mismatch between start and dur attributes in XML
+    textElements.forEach((element: any, index) => {
+      const start = parseFloat(element.$.start);
+      let end: number;
+      let duration: number;
+
+      if (index < textElements.length - 1) {
+        const nextStart = parseFloat(textElements[index + 1].$.start);
+        end = nextStart;
+        duration = nextStart - start;
+      } else {
+        duration = parseFloat(element.$.dur);
+        end = start + duration;
+      }
+
       subtitles.push({
+        start: start.toFixed(2),
+        end: end.toFixed(2),
+        duration: duration.toFixed(2),
         text: element._,
-        start: element.$.start,
-        duration: element.$.dur,
       });
     });
   } catch (err) {
