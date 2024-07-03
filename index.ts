@@ -1,4 +1,4 @@
-import * as xml2js from "xml2js";
+import { parseXML } from "./utils/parseXML";
 
 const YOUTUBE_WATCH_URL = "https://www.youtube.com/watch?v=";
 
@@ -65,24 +65,22 @@ async function fetchSubtitles(
   const response = await fetch(transcriptUrl);
   const xmlString = await response.text();
 
-  const subtitles: TranscriptEntry[] = [];
-
   try {
-    const result = await xml2js.parseStringPromise(xmlString);
-    const textElements = result.transcript.text;
+    const textElements = parseXML(xmlString);
+    const subtitles: TranscriptEntry[] = [];
 
     // Attempt to handle mismatch between start and dur attributes in XML
-    textElements.forEach((element: any, index) => {
-      const start = parseFloat(element.$.start);
+    textElements.forEach((element, index) => {
+      const start = element.start;
       let end: number;
       let duration: number;
 
       if (index < textElements.length - 1) {
-        const nextStart = parseFloat(textElements[index + 1].$.start);
+        const nextStart = textElements[index + 1].start;
         end = nextStart;
         duration = nextStart - start;
       } else {
-        duration = parseFloat(element.$.dur);
+        duration = element.dur;
         end = start + duration;
       }
 
@@ -90,14 +88,14 @@ async function fetchSubtitles(
         start: start.toFixed(2),
         end: end.toFixed(2),
         duration: duration.toFixed(2),
-        text: element._,
+        text: element.content,
       });
     });
-  } catch (err) {
-    throw new Error(err);
-  }
 
-  return subtitles;
+    return subtitles;
+  } catch (err) {
+    throw new Error("Failed to parse XML:", err);
+  }
 }
 
 export async function fetchTranscript(

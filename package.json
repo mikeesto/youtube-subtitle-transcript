@@ -36,12 +36,12 @@
     "url": "https://github.com/mikeesto/youtube-subtitle-transcript/issues"
   },
   "homepage": "https://github.com/mikeesto/youtube-subtitle-transcript#readme",
-  "dependencies": {
-    "xml2js": "^0.6.2"
-  },
   "devDependencies": {
     "ts-node": "^10.9.2",
     "tsup": "^8.0.1",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^4.4.0"
   }
 }
